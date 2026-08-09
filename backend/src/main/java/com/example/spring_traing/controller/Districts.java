@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/districts")
 public class Districts {
-    
-    /**
-     * Get districts mapping.
-     *
-     * @return message string
-     */
-    @GetMapping
-    public String getMapping() {
-        System.out.println("マッピングテストです");
-        return "マッピングテストです";
-    }
+
+  /**
+   * Get districts mapping.
+   *
+   * @return message string
+   */
+  @GetMapping
+  public String getMapping() {
+    System.out.println("マッピングテストです");
+    return "マッピングテストです";
+  }
 }
