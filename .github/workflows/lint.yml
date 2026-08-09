@@ -1,0 +1,26 @@
+name: Lint & Check
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Lint Frontend
+        run: cd frontend && npm install && npm run lint
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '24'
+          distribution: 'temurin'
+
+      - name: Lint Backend
+        run: cd backend && ./mvnw checkstyle:check
