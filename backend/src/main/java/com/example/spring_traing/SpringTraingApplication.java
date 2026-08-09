@@ -7,7 +7,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Spring Training Application entry point.
  */
 @SpringBootApplication
-public class SpringTraingApplication {
+public final class SpringTraingApplication {
+
+  /**
+   * Private constructor for utility class.
+   */
+  private SpringTraingApplication() {
+  }
 
   /**
    * Application main method.
