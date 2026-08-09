@@ -24,3 +24,4 @@ jobs:
 
       - name: Lint Backend
         run: cd backend && ./mvnw checkstyle:check
+        
