@@ -51,3 +51,8 @@ export const createProject = async (
   const response = await axios.post<Project>(API_BASE_URL, project)
   return response.data
 }
+
+// プロジェクトを削除
+export const deleteProject = async (id: number): Promise<void> => {
+  await axios.delete(`${API_BASE_URL}/${id}`)
+}

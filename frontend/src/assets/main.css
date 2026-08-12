@@ -12,7 +12,7 @@
   --color-background: #f5f7fb;
   --color-surface: #ffffff;
 
-  --color-text: #1f2937;
+  --color-text: #aaccfb;
   --color-text-secondary: #6b7280;
 
   --color-border: #e5e7eb;
@@ -53,18 +53,61 @@ select {
 }
 
 /* =========================
-   Common Button
-   ========================= */
+Page Layout
+========================= */
+
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.page-description {
+  margin-top: 8px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+
+/* =========================
+Common Button
+========================= */
 
 .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
   border: none;
   border-radius: var(--radius-sm);
   padding: 10px 18px;
+
   font-weight: 600;
+  font-size: 14px;
+
   cursor: pointer;
+
   transition:
     background-color 0.2s,
-    transform 0.1s;
+    color 0.2s,
+    border-color 0.2s,
+    transform 0.1s,
+    box-shadow 0.2s;
 }
 
 .btn:active {
@@ -78,6 +121,7 @@ select {
 
 .btn-primary:hover {
   background-color: var(--color-primary-hover);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-secondary {
@@ -90,14 +134,68 @@ select {
   background-color: #f9fafb;
 }
 
+.btn-danger {
+  background-color: var(--color-danger);
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #b91c1c;
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--color-text-secondary);
+}
+
+.btn-ghost:hover {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.detail-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 28px;
+}
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  margin-bottom: 24px;
+
+  background: none;
+  border: none;
+
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.btn-back:hover {
+  color: var(--color-primary);
+}
+
 .btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
+
 /* =========================
-   Common Form
-   ========================= */
+Common Form
+========================= */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
 .form-group {
   display: flex;
@@ -114,14 +212,20 @@ select {
 .form-control {
   width: 100%;
   padding: 11px 13px;
+
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
+
   background-color: white;
   color: var(--color-text);
+
   outline: none;
+
   transition:
     border-color 0.2s,
     box-shadow 0.2s;
+
+  box-sizing: border-box;
 }
 
 .form-control:focus {
@@ -134,13 +238,264 @@ textarea.form-control {
   resize: vertical;
 }
 
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+
+  margin-top: 10px;
+}
+
+
 /* =========================
-   Common Card
-   ========================= */
+Common Card
+========================= */
 
 .card {
   background-color: var(--color-surface);
+
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
+
   box-shadow: var(--shadow-sm);
+}
+
+.card-body {
+  padding: 24px;
+}
+
+.card-header {
+  padding: 20px 24px;
+
+  border-bottom: 1px solid var(--color-border);
+}
+
+.card-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+
+/* =========================
+Project Card
+========================= */
+
+.project-card {
+  background-color: var(--color-surface);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  padding: 22px;
+
+  box-shadow: var(--shadow-sm);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s,
+    border-color 0.2s;
+}
+
+.project-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: #bfdbfe;
+}
+
+.project-card h2 {
+  margin: 0 0 10px;
+  font-size: 20px;
+}
+
+.project-card p {
+  margin: 6px 0;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+
+/* =========================
+Project List
+========================= */
+
+.project-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+
+/* =========================
+Project Detail
+========================= */
+
+.detail-card {
+  padding: 28px;
+}
+
+.detail-header {
+  margin-bottom: 28px;
+}
+
+.detail-title {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.detail-description {
+  margin-top: 10px;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+.detail-section {
+  padding: 22px 0;
+
+  border-top: 1px solid var(--color-border);
+}
+
+.detail-section:first-child {
+  border-top: none;
+}
+
+.detail-section-title {
+  margin: 0 0 12px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+
+/* =========================
+Status / Priority Badge
+========================= */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 4px 10px;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-primary {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.badge-neutral {
+  background-color: #f3f4f6;
+  color: var(--color-text-secondary);
+}
+
+
+/* =========================
+Progress
+========================= */
+
+.progress {
+  width: 100%;
+  height: 8px;
+
+  overflow: hidden;
+
+  background-color: #e5e7eb;
+  border-radius: 999px;
+}
+
+.progress-bar {
+  height: 100%;
+
+  background-color: var(--color-primary);
+  border-radius: 999px;
+
+  transition: width 0.3s ease;
+}
+
+
+/* =========================
+Error
+========================= */
+
+.error-message {
+  padding: 12px 16px;
+
+  border: 1px solid #fecaca;
+  border-radius: var(--radius-sm);
+
+  background-color: #fef2f2;
+  color: var(--color-danger);
+
+  font-size: 14px;
+}
+
+
+/* =========================
+Empty State
+========================= */
+
+.empty-state {
+  padding: 60px 24px;
+
+  text-align: center;
+
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+
+  background-color: var(--color-surface);
+}
+
+.empty-state-title {
+  margin: 0 0 8px;
+
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.empty-state-description {
+  margin: 0 0 20px;
+
+  color: var(--color-text-secondary);
+}
+
+
+/* =========================
+Responsive
+========================= */
+
+@media (max-width: 768px) {
+  .page {
+    padding: 24px 16px;
+  }
+
+  .page-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .project-list {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-title {
+    font-size: 26px;
+  }
 }

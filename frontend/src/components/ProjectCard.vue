@@ -1,15 +1,20 @@
-```vue
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import type { Project } from '@/api/projectApi'
 
-//definePropsを使って、親コンポーネントから渡されるプロジェクトの値を受け取る
-defineProps<{
+const props = defineProps<{
   project: Project
 }>()
+
+const router = useRouter()
+
+const handleClick = () => {
+  router.push(`/projects/${props.project.id}`)
+}
 </script>
 
 <template>
-  <div class="project-card">
+  <div class="project-card" @click="handleClick">
     <h2>{{ project.name }}</h2>
 
     <p>{{ project.description }}</p>
