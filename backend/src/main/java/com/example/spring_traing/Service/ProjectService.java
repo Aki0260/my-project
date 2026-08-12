@@ -82,4 +82,8 @@ public class ProjectService { //このサービス層では、プロジェクト
 
         return response;
     }
+
+    public void deleteProject(Long id) {
+        projectRepository.deleteById(id);
+    }
 }
