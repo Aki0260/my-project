@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController //このクラスはHTTPリクエストを受け付けるコントローラです
 @RequestMapping("/api/projects") //このコントローラが処理するリクエストのベースURLを指定しています。ここでは、"/api/projects"というパスにマッピングされています。
+@CrossOrigin(origins = "http://localhost:5173") //このコントローラが処理するリクエストに対して、指定されたオリジン（ここではhttp://localhost:3000）からのクロスオリジンリクエストを許可することを示しています。
 public class ProjectController {
 
     private final ProjectService projectService;
