@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
   getProject,
+  updateProject,
   type Project,
   type ProjectCreateRequest,
 } from '@/api/projectApi'
@@ -54,10 +55,26 @@ onMounted(async () => {
 })
 
 // 更新処理
-const handleSubmit = async () => {
-  // ここは次にupdateProject()を実装する
-}
+const handleSubmit = async (): Promise<void> => {
+  if (!project.value) {
+    return
+  }
 
+  try {
+    isSubmitting.value = true
+    errorMessage.value = ''
+
+    await updateProject(project.value.id, form.value)
+
+    // 更新成功後、一覧画面へ戻る
+    await router.push('/')
+  } catch (error) {
+    console.error(error)
+    errorMessage.value = 'プロジェクトの更新に失敗しました。'
+  } finally {
+    isSubmitting.value = false
+  }
+}
 // キャンセル
 const handleCancel = () => {
   router.push(`/projects/${route.params.id}`)

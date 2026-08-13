@@ -72,7 +72,7 @@ const handleBack = () => {
       TODO: 共通コンポーネント化
       戻るボタンは共通のButtonコンポーネントにする
     -->
-    <button type="button" @click="handleBack">
+    <button type="button" class="btn btn-secondary" @click="handleBack">
       ← 一覧に戻る
     </button>
 
@@ -84,7 +84,7 @@ const handleBack = () => {
 
 
     <!-- プロジェクト情報 -->
-    <div v-if="project">
+    <div v-if="project" class="project-detail-card">
 
       <!-- TODO: ProjectDetailHeader.vue に切り出す -->
       <h1>{{ project.name }}</h1>
@@ -95,43 +95,49 @@ const handleBack = () => {
 
 
       <!-- TODO: ProjectInfo.vue に切り出す -->
-      <section>
-        <h2>目標</h2>
-        <p>{{ project.goal }}</p>
+      <div class="detail-grid">
+        <section class="detail-section card">
+          <h2>目標</h2>
+          <p>{{ project.goal }}</p>
+        </section>
 
-        <h2>意気込み</h2>
-        <p>{{ project.motivation }}</p>
-      </section>
+        <section class="detail-section card">
+          <h2>意気込み</h2>
+          <p>{{ project.motivation }}</p>
+        </section>
+      </div>
 
 
       <!-- TODO: ProjectSchedule.vue に切り出す -->
-      <section>
+      <section class="detail-section card">
         <h2>プロジェクト情報</h2>
 
-        <p>
-          ステータス：
-          {{ project.status }}
-        </p>
+        <div class="project-info-grid">
+          <div>
+            <span>ステータス</span>
+            <strong>{{ project.status }}</strong>
+          </div>
 
-        <p>
-          優先度：
-          {{ project.priority }}
-        </p>
+          <div>
+            <span>優先度</span>
+            <strong>{{ project.priority }}</strong>
+          </div>
 
-        <p>
-          開始日：
-          {{ project.startDate }}
-        </p>
+          <div>
+            <span>開始日</span>
+            <strong>{{ project.startDate }}</strong>
+          </div>
 
-        <p>
-          予定終了日：
-          {{ project.plannedEndDate }}
-        </p>
+          <div>
+            <span>予定終了日</span>
+            <strong>{{ project.plannedEndDate }}</strong>
+          </div>
 
-        <p>
-          予定工数：
-          {{ project.plannedHours }}時間
-        </p>
+          <div>
+            <span>予定工数</span>
+            <strong>{{ project.plannedHours }}時間</strong>
+          </div>
+        </div>
       </section>
 
 
@@ -147,7 +153,7 @@ const handleBack = () => {
 
 
       <!-- TODO: ProjectActionButtons.vue に切り出す -->
-      <div>
+      <div class="detail-actions">
         <button type="button" class="btn btn-primary" @click="handleEdit">
           編集
         </button>
