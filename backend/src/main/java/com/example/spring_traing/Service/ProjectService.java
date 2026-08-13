@@ -1,13 +1,15 @@
 package com.example.spring_traing.Service;
 
-import com.example.spring_traing.DTO.ProjectCreateRequest;
-import com.example.spring_traing.DTO.ProjectResponse;
-import com.example.spring_traing.Entity.Project;
-import com.example.spring_traing.Repository.ProjectRepository;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.example.spring_traing.DTO.ProjectCreateRequest;
+import com.example.spring_traing.DTO.ProjectResponse;
+import com.example.spring_traing.DTO.ProjectUpdateRequest;
+import com.example.spring_traing.Entity.Project;
+import com.example.spring_traing.Repository.ProjectRepository;
 
 @Service
 public class ProjectService { //このサービス層では、プロジェクトの作成、取得、一覧表示などのビジネスロジックを実装しています。
@@ -85,5 +87,33 @@ public class ProjectService { //このサービス層では、プロジェクト
 
     public void deleteProject(Long id) {
         projectRepository.deleteById(id);
+    }
+
+    // プロジェクトの更新メソッド
+    public ProjectResponse updateProject(
+            Long id,
+            ProjectUpdateRequest request) {
+        
+        // 指定されたIDのプロジェクトをデータベースから取得
+        Project project = projectRepository.findById(id)
+                .orElseThrow(()
+                        -> new RuntimeException("Project not found: " + id));
+        // リクエストから取得した各プロジェクトの属性をエンティティに移し替え
+        project.setName(request.getName());
+        project.setDescription(request.getDescription());
+        project.setGoal(request.getGoal());
+        project.setMotivation(request.getMotivation());
+        project.setStatus(request.getStatus());
+        project.setPriority(request.getPriority());
+        project.setStartDate(request.getStartDate());
+        project.setPlannedEndDate(request.getPlannedEndDate());
+        project.setPlannedHours(request.getPlannedHours());
+
+        project.setUpdatedAt(LocalDateTime.now());
+
+        // プロジェクトエンティティをデータベースに保存し、保存されたエンティティを返す
+        Project updatedProject = projectRepository.save(project);
+
+        return toResponse(updatedProject);
     }
 }
