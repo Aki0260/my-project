@@ -52,6 +52,20 @@ export const createProject = async (
   return response.data
 }
 
+// プロジェクトを更新
+export const updateProject = async (
+  id: number,
+  project: ProjectCreateRequest
+  //Promise<Project>は、非同期処理の結果としてProject型の値を返すことを示しています。
+): Promise<Project> => {
+  const response = await axios.put<Project>(
+    `${API_BASE_URL}/${id}`,
+    project
+  )
+
+  return response.data
+}
+
 // プロジェクトを削除
 export const deleteProject = async (id: number): Promise<void> => {
   await axios.delete(`${API_BASE_URL}/${id}`)

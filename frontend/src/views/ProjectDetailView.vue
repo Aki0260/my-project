@@ -50,6 +50,15 @@ const handleDelete = async () => {
   }
 }
 
+// 編集画面へ移動
+const handleEdit = () => {
+  if (!project.value) {
+    return
+  }
+
+  router.push(`/projects/${project.value.id}/edit`)
+}
+
 // 一覧に戻る
 const handleBack = () => {
   router.push('/')
@@ -139,7 +148,7 @@ const handleBack = () => {
 
       <!-- TODO: ProjectActionButtons.vue に切り出す -->
       <div>
-        <button>
+        <button type="button" class="btn btn-primary" @click="handleEdit">
           編集
         </button>
 
