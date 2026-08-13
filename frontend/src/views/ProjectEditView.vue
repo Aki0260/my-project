@@ -85,6 +85,7 @@ const handleCancel = () => {
   <div class="project-create-page">
     <div class="project-create-container">
 
+      <!-- ヘッダー -->
       <div class="page-header">
         <div>
           <p class="page-eyebrow">PROJECT</p>
@@ -97,6 +98,7 @@ const handleCancel = () => {
         </div>
       </div>
 
+      <!-- 共通フォーム -->
       <ProjectForm
         v-model="form"
         :is-submitting="isSubmitting"

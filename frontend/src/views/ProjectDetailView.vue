@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { getProject, deleteProject, type Project } from '@/api/projectApi'
+import {
+  getProject,
+  deleteProject,
+  type Project,
+} from '@/api/projectApi'
 
 const route = useRoute()
 const router = useRouter()
@@ -15,10 +19,8 @@ const errorMessage = ref('')
 // プロジェクト詳細を取得
 onMounted(async () => {
   try {
-    // URLからプロジェクトIDを取得
     const id = Number(route.params.id)
 
-    // APIからプロジェクトを取得
     project.value = await getProject(id)
   } catch (error) {
     console.error(error)
@@ -26,8 +28,17 @@ onMounted(async () => {
   }
 })
 
+// 編集画面へ移動
+const handleEdit = () => {
+  if (!project.value) {
+    return
+  }
+
+  router.push(`/projects/${project.value.id}/edit`)
+}
+
+// プロジェクト削除
 const handleDelete = async () => {
-  console.log('削除ボタンが押された')
   if (!project.value) {
     return
   }
@@ -50,15 +61,6 @@ const handleDelete = async () => {
   }
 }
 
-// 編集画面へ移動
-const handleEdit = () => {
-  if (!project.value) {
-    return
-  }
-
-  router.push(`/projects/${project.value.id}/edit`)
-}
-
 // 一覧に戻る
 const handleBack = () => {
   router.push('/')
@@ -66,104 +68,205 @@ const handleBack = () => {
 </script>
 
 <template>
-  <div class="project-detail">
-
-    <!--
-      TODO: 共通コンポーネント化
-      戻るボタンは共通のButtonコンポーネントにする
-    -->
-    <button type="button" class="btn btn-secondary" @click="handleBack">
+  <div class="page">
+    <!-- 一覧に戻る -->
+    <button
+      type="button"
+      class="btn-back"
+      @click="handleBack"
+    >
       ← 一覧に戻る
     </button>
 
-
     <!-- エラー -->
-    <p v-if="errorMessage">
+    <p
+      v-if="errorMessage"
+      class="error-message"
+    >
       {{ errorMessage }}
     </p>
 
+    <div
+      v-if="project"
+      class="card detail-card"
+    >
 
-    <!-- プロジェクト情報 -->
-    <div v-if="project" class="project-detail-card">
+      <!-- ヘッダー -->
+      <div class="detail-header">
+        <p class="page-eyebrow">
+          PROJECT DETAIL
+        </p>
 
-      <!-- TODO: ProjectDetailHeader.vue に切り出す -->
-      <h1>{{ project.name }}</h1>
+        <h1 class="detail-title">
+          {{ project.name }}
+        </h1>
 
-      <p>
-        {{ project.description }}
-      </p>
-
-
-      <!-- TODO: ProjectInfo.vue に切り出す -->
-      <div class="detail-grid">
-        <section class="detail-section card">
-          <h2>目標</h2>
-          <p>{{ project.goal }}</p>
-        </section>
-
-        <section class="detail-section card">
-          <h2>意気込み</h2>
-          <p>{{ project.motivation }}</p>
-        </section>
+        <p class="detail-description">
+          {{ project.description }}
+        </p>
       </div>
 
+      <!-- 目標 -->
+      <section class="detail-section">
+        <h2 class="detail-section-title">
+          目標
+        </h2>
 
-      <!-- TODO: ProjectSchedule.vue に切り出す -->
-      <section class="detail-section card">
-        <h2>プロジェクト情報</h2>
+        <p>
+          {{ project.goal }}
+        </p>
+      </section>
 
-        <div class="project-info-grid">
-          <div>
-            <span>ステータス</span>
-            <strong>{{ project.status }}</strong>
+      <!-- 意気込み -->
+      <section class="detail-section">
+        <h2 class="detail-section-title">
+          意気込み
+        </h2>
+
+        <p>
+          {{ project.motivation }}
+        </p>
+      </section>
+
+      <!-- プロジェクト情報 -->
+      <section class="detail-section">
+        <h2 class="detail-section-title">
+          プロジェクト情報
+        </h2>
+
+        <div class="info-grid">
+
+          <div class="info-item">
+            <span class="info-label">
+              ステータス
+            </span>
+
+            <span class="badge badge-primary">
+              {{ project.status }}
+            </span>
           </div>
 
-          <div>
-            <span>優先度</span>
-            <strong>{{ project.priority }}</strong>
+          <div class="info-item">
+            <span class="info-label">
+              優先度
+            </span>
+
+            <span class="badge badge-neutral">
+              {{ project.priority }}
+            </span>
           </div>
 
-          <div>
-            <span>開始日</span>
-            <strong>{{ project.startDate }}</strong>
+          <div class="info-item">
+            <span class="info-label">
+              開始日
+            </span>
+
+            <span>
+              {{ project.startDate }}
+            </span>
           </div>
 
-          <div>
-            <span>予定終了日</span>
-            <strong>{{ project.plannedEndDate }}</strong>
+          <div class="info-item">
+            <span class="info-label">
+              予定終了日
+            </span>
+
+            <span>
+              {{ project.plannedEndDate }}
+            </span>
           </div>
 
-          <div>
-            <span>予定工数</span>
-            <strong>{{ project.plannedHours }}時間</strong>
+          <div class="info-item">
+            <span class="info-label">
+              予定工数
+            </span>
+
+            <span>
+              {{ project.plannedHours }}時間
+            </span>
           </div>
+
         </div>
       </section>
 
+      <!-- 進行度 -->
+      <section class="detail-section">
+        <h2 class="detail-section-title">
+          進行度
+        </h2>
 
-      <!-- TODO: ProgressBar.vue を追加 -->
-      <section>
-        <h2>進行度</h2>
+        <div class="progress">
+          <div
+            class="progress-bar"
+            style="width: 0%"
+          ></div>
+        </div>
 
-        <!--
-          ProgressBar.vue
-          プロジェクトの進行度を視覚的に表示する
-        -->
+        <p class="progress-text">
+          進行度：0%
+        </p>
       </section>
 
-
-      <!-- TODO: ProjectActionButtons.vue に切り出す -->
+      <!-- アクション -->
       <div class="detail-actions">
-        <button type="button" class="btn btn-primary" @click="handleEdit">
+
+        <button
+          type="button"
+          class="btn btn-danger"
+          @click="handleDelete"
+        >
+          プロジェクトを削除
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          @click="handleEdit"
+        >
           編集
         </button>
 
-        <button type="button" class="btn btn-danger" @click="handleDelete">
-          プロジェクトを削除
-        </button>
       </div>
 
     </div>
-
   </div>
 </template>
+
+<style scoped>
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  padding: 16px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  background-color: #fafbfc;
+}
+
+.info-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.progress-text {
+  margin: 10px 0 0;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 768px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
