@@ -82,32 +82,88 @@ const handleCancel = () => {
 </script>
 
 <template>
-  <div class="project-create-page">
-    <div class="project-create-container">
+  <div class="project-edit-page">
+    <div class="project-edit-container">
 
-      <!-- ヘッダー -->
-      <div class="page-header">
-        <div>
-          <p class="page-eyebrow">PROJECT</p>
+      <!-- 戻る -->
+      <button
+        type="button"
+        class="btn-back"
+        @click="handleCancel"
+      >
+        ← プロジェクト詳細へ戻る
+      </button>
 
-          <h1>プロジェクトを編集</h1>
+      <!-- エラー -->
+      <p
+        v-if="errorMessage"
+        class="error-message"
+      >
+        {{ errorMessage }}
+      </p>
 
-          <p class="page-description">
+      <!-- 編集フォーム -->
+      <div class="card edit-card">
+
+        <!-- ヘッダー -->
+        <div class="edit-header">
+          <p class="page-eyebrow">
+            PROJECT EDIT
+          </p>
+
+          <h1 class="detail-title">
+            プロジェクトを編集
+          </h1>
+
+          <p class="detail-description">
             プロジェクトの情報を変更します。
           </p>
         </div>
-      </div>
 
-      <!-- 共通フォーム -->
-      <ProjectForm
-        v-model="form"
-        :is-submitting="isSubmitting"
-        :error-message="errorMessage"
-        submit-label="変更を保存"
-        @submit="handleSubmit"
-        @cancel="handleCancel"
-      />
+        <!-- 共通フォーム -->
+        <ProjectForm
+          :model-value="form"
+          :is-submitting="isSubmitting"
+          :error-message="''"
+          submit-label="変更を保存"
+          @update:model-value="form = $event"
+          @submit="handleSubmit"
+          @cancel="handleCancel"
+        />
+
+      </div>
 
     </div>
   </div>
 </template>
+<style scoped>
+.project-edit-page {
+  min-height: 100vh;
+  padding: 48px 24px;
+}
+
+.project-edit-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.edit-card {
+  padding: 32px;
+}
+
+.edit-header {
+  padding-bottom: 28px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.edit-header h1 {
+  margin: 0;
+}
+
+.detail-description {
+  margin: 10px 0 0;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+</style>

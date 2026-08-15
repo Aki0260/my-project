@@ -24,7 +24,7 @@ const form = ref<ProjectCreateRequest>({
 const isSubmitting = ref(false)
 const errorMessage = ref('')
 
-const handleSubmit = async () => {
+const handleSubmit = async (): Promise<void> => {
   errorMessage.value = ''
 
   if (
@@ -43,6 +43,7 @@ const handleSubmit = async () => {
 
     await createProject(form.value)
 
+    // 作成成功後は一覧画面へ
     await router.push('/')
   } catch (error) {
     console.error(error)
@@ -61,26 +62,96 @@ const handleCancel = () => {
   <div class="project-create-page">
     <div class="project-create-container">
 
-      <div class="page-header">
-        <p class="page-eyebrow">PROJECT</p>
+      <!-- 一覧に戻る -->
+      <button
+        type="button"
+        class="btn-back"
+        @click="handleCancel"
+      >
+        ← 一覧に戻る
+      </button>
 
-        <h1>新しいプロジェクトを作成</h1>
+      <!-- エラー -->
+      <p
+        v-if="errorMessage"
+        class="error-message"
+      >
+        {{ errorMessage }}
+      </p>
 
-        <p class="page-description">
-          プロジェクトの情報を入力して、計画を始めましょう。
-        </p>
+      <!-- 作成カード -->
+      <div class="card create-card">
+
+        <!-- ヘッダー -->
+        <div class="create-header">
+          <p class="page-eyebrow">
+            PROJECT
+          </p>
+
+          <h1 class="detail-title">
+            新しいプロジェクトを作成
+          </h1>
+
+          <p class="detail-description">
+            プロジェクトの情報を入力して、計画を始めましょう。
+          </p>
+        </div>
+
+        <!-- フォーム -->
+        <ProjectForm
+          :model-value="form"
+          :is-submitting="isSubmitting"
+          :error-message="''"
+          submit-label="作成"
+          @update:model-value="form = $event"
+          @submit="handleSubmit"
+          @cancel="handleCancel"
+        />
+
       </div>
-
-      <ProjectForm
-        :model-value="form"
-        :is-submitting="isSubmitting"
-        :error-message="errorMessage"
-        submit-label="作成"
-        @update:model-value="form = $event"
-        @submit="handleSubmit"
-        @cancel="handleCancel"
-      />
 
     </div>
   </div>
 </template>
+
+<style scoped>
+.project-create-page {
+  min-height: 100vh;
+  padding: 48px 24px;
+}
+
+.project-create-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.create-card {
+  padding: 32px;
+}
+
+.create-header {
+  padding-bottom: 28px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.create-header h1 {
+  margin: 0;
+}
+
+.detail-description {
+  margin: 10px 0 0;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+@media (max-width: 700px) {
+  .project-create-page {
+    padding: 24px 16px;
+  }
+
+  .create-card {
+    padding: 24px;
+  }
+}
+</style>
